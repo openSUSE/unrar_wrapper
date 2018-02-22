@@ -58,6 +58,7 @@ According to my tests, there is no difference in the output for `l` and `v` comm
 | UnRAR cmd | unar cmd | wrapper implementation
 |--|--|--|
 | `p` | not supported | not implemented
+
 UnRAR's `p` command simply prints the file to stdout. It's not supported in unar and as I don't find this command critical, I didn't implement it.
 
 ### Options
