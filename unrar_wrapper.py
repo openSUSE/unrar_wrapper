@@ -98,7 +98,7 @@ def transform_syntax(args):
             opts.append('-t')
 
     # '-p' option makes sense for all commands
-    if args.password is not None:
+    if args.password:
         opts.append('-p')
         opts.append(args.password)
 
@@ -151,7 +151,7 @@ def process_rest(rest):
     Raises:
     """
 
-    if rest is None:
+    if not rest:
         return None, None, None
 
     # UnRAR considers every item ending with '/' as a path.
@@ -198,7 +198,7 @@ def main():
                 files = files + transform_list_files(list_files)
 
             # Transform path to unar syntax ("-o DIRECTORY")
-            if path is not None:
+            if path:
                 options.extend(["-o", path])
 
     # Call Unarchiver
