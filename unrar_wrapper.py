@@ -2,7 +2,8 @@
 
 """
 UnRAR wrapper is a wrapper python script that transforms the basic UnRAR
-commands to unar and lsar calling in order to provide a backwards compatibility.
+commands to unar and lsar calling in order to provide a backwards
+compatibility.
 It supports only a subset of the UnRAR commands and options:
 Supported commands: l[t[a],b], t, v[t[a],b], x.
 Supported options: -o+, -o-, -or, -p
@@ -180,9 +181,9 @@ def main():
     files = []
     if args.rest and command == 'lsar':
         # files, @list_files and path are not supported for lsar
-        print("Warning: [files...], [@list_files...] and [path_to_extract/] "
-              "are not supported for listing and testing. These parameters are "
-              "ignored.", file=sys.stderr)
+        print("Warning: [files...], [@list_files...] and [path_to_extract/]"
+              " are not supported for listing and testing. These parameters"
+              " are ignored.", file=sys.stderr)
 
     if command == 'unar':
         # Add '-D' option by default in order to simulate default UnRAR
