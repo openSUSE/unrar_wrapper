@@ -6,9 +6,9 @@ from setuptools import setup, find_packages
 setup(
     name='unrar_wrapper',
     version='1.0.0',
-    packages=find_packages(),
+    py_modules=['unrar_wrapper'],
     description='Backwards compatibility between unar and unrar',
-    long_description=open('README.md').read(),
+    long_description=open('README.md', 'r', encoding='utf-8').read(),
 
     url='https://github.com/openSUSE/unrar_wrapper',
     download_url='https://github.com/openSUSE/unrar_wrapper',
@@ -33,6 +33,8 @@ setup(
     ],
     keywords='unar unrar',
     platforms=['Linux'],
+
+    test_suite="tests",
 
     entry_points={
         'console_scripts': ['unrar_wrapper = unrar_wrapper:main']},
