@@ -47,6 +47,8 @@ def parse_args():
     parser.add_argument('-p',
                         dest='password',
                         help='-p[password] Set password.')
+    parser.add_argument('-kb', const=True, action='store_const',
+                        help='keep broken files (default behavior)')
     parser.add_argument('archive',
                         help='The path to the archive')
     parser.add_argument('rest',

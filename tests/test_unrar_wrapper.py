@@ -72,6 +72,11 @@ class TestTransformSyntax(unittest.TestCase):
                                   overwrite=None, password='mypass', rest=[])
         self.assertEqual(('lsar', ['-p', "mypass"]), uw.transform_syntax(args))
 
+    def test_unar_keep_broken(self):
+        args = argparse.Namespace(archive='sample.rar', command='x',
+                                  overwrite=None, kb=True, password=None, rest=[])
+        self.assertEqual(('unar', []), uw.transform_syntax(args))
+
 
 class TestTransformListFiles(unittest.TestCase):
 
