@@ -1,5 +1,7 @@
 # UnRAR wrapper
 
+[![Build Status](https://travis-ci.org/openSUSE/unrar_wrapper.svg?branch=master)](https://travis-ci.org/openSUSE/unrar#_wrapper)
+
 UnRAR wrapper (`unrar_wrapper.py`) is a wrapper python script that transforms the basic UnRAR commands to unar and lsar calls in order to provide a backwards compatibility.
 
 ## Reasons for wrapper
