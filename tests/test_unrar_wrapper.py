@@ -50,6 +50,11 @@ class TestTransformSyntax(unittest.TestCase):
                                   overwrite=None, password=None, rest=[])
         self.assertEqual(('lsar', ['-t']), uw.transform_syntax(args))
 
+    def test_print_command(self):
+        args = argparse.Namespace(archive='sample.rar', command='p',
+                                  overwrite=None, password=None, rest=[])
+        self.assertEqual(('unar', ['-o', '-']), uw.transform_syntax(args))
+
     def test_unar_overwrite_options(self):
         args = argparse.Namespace(archive='sample.rar', command='x',
                                   overwrite='+', password=None, rest=[])

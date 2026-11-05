@@ -5,7 +5,7 @@ UnRAR wrapper is a wrapper python script that transforms the basic UnRAR
 commands to unar and lsar calling in order to provide a backwards
 compatibility.
 It supports only a subset of the UnRAR commands and options:
-Supported commands: l[t[a],b], t, v[t[a],b], x.
+Supported commands: l[t[a],b], p, t, v[t[a],b], x.
 Supported options: -o+, -o-, -or, -p
 Other: files, @listfiles and path_to_extract (only for unar)
 Return codes: 0 (success), 1 (error), 2 (invalid argument)
@@ -22,7 +22,7 @@ def parse_args():
     The UnRAR synopsis is as follows:
       unrar command [option1] [optionN] archive [files...] [@list-files...]
       [path_to_extract/]
-    Support the following commands: l[t[a],b], t, v[t[a],b], x.
+    Support the following commands: l[t[a],b], p, t, v[t[a],b], x.
     Support the following options: -o+, -o-, -or, -p
 
     Args:
@@ -36,7 +36,7 @@ def parse_args():
                                                  "calling in order to provide "
                                                  "a backwards compatibility")
     parser.add_argument('command',
-                        choices=['l', 'lt', 'lta', 'lb', 't', 'v', 'vt',
+                        choices=['l', 'lt', 'lta', 'lb', 'p', 't', 'v', 'vt',
                                  'vta', 'vb', 'x'],
                         help="UnRAR command")
     parser.add_argument('-o',
@@ -81,6 +81,11 @@ def transform_syntax(args):
         # '-or' means force-rename
         elif args.overwrite == 'r':
             opts.append('-r')
+    elif args.command == 'p':
+        # Print files to stdout. unar does that when the output directory is
+        # a single dash.
+        command = 'unar'
+        opts.extend(['-o', '-'])
     else:
         command = 'lsar'
         if (args.command == 'lb' or
@@ -186,10 +191,11 @@ def main():
               " are ignored.", file=sys.stderr)
 
     if command == 'unar':
-        # Add '-D' option by default in order to simulate default UnRAR
-        # behaviour (never create a new containing directory if there is more
-        # than one top-level file or folder)
-        options.append("-D")
+        if args.command == 'x':
+            # Add '-D' option by default in order to simulate default UnRAR
+            # behaviour (never create a new containing directory if there is
+            # more than one top-level file or folder)
+            options.append("-D")
 
         if args.rest:
             files, list_files, path = process_rest(args.rest)
@@ -198,9 +204,16 @@ def main():
             if list_files:
                 files = files + transform_list_files(list_files)
 
-            # Transform path to unar syntax ("-o DIRECTORY")
             if path:
-                options.extend(["-o", path])
+                if args.command == 'p':
+                    # Print doesn't extract to a directory, so there is no
+                    # meaning in path_to_extract for it.
+                    print("Warning: [path_to_extract/] is not supported for"
+                          " printing. This parameter is ignored.",
+                          file=sys.stderr)
+                else:
+                    # Transform path to unar syntax ("-o DIRECTORY")
+                    options.extend(["-o", path])
 
     # Call Unarchiver
     rc = subprocess.call([command] + options + [args.archive] + files)

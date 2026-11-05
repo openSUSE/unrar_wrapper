@@ -22,7 +22,7 @@ As it was already written, UnRAR provides a huge set of commands and options, wh
 
 `lsar [OPTION]... ARCHIVE...`
 
-As you can see even UnRAR and Unarchiver synopsis is different. Wrapper supports UnRAR synopsis as is only for extract (`x`) command. For list (`l`) and test (`t`) commands it supports neither `files`, `@listfiles` nor `path_to_extract/` as Unarchiver doesn't provide this functionality.
+As you can see even UnRAR and Unarchiver synopsis is different. Wrapper supports UnRAR synopsis as is only for extract (`x`) and print (`p`) commands. For list (`l`) and test (`t`) commands it supports neither `files`, `@listfiles` nor `path_to_extract/` as Unarchiver doesn't provide this functionality.
 
 | UnRAR | unar | wrapper implementation |
 |--|--|--|
@@ -59,9 +59,9 @@ According to my tests, there is no difference in the output for `l` and `v` comm
 #### Print
 | UnRAR cmd | unar cmd | wrapper implementation
 |--|--|--|
-| `p` | not supported | not implemented
+| `p` | `unar -o -` | direct
 
-UnRAR's `p` command simply prints the file to stdout. It's not supported in unar and as I don't find this command critical, I didn't implement it.
+UnRAR's `p` command prints the contents of the selected files to stdout. The wrapper implements it by passing `-o -` (`-output-directory -`) to `unar`, which makes unar write the data to stdout instead of creating files.
 
 ### Options
 UnRAR contains many options but only the following are directly supported in the Unarchiver. Simulation of the other options is beyond the scope of this wrapper.
